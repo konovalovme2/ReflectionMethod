@@ -38,4 +38,4 @@ build/
 .DS_Store
 
 /src/test/java/com/examples/konovalov/GenTest.java
-/src/main/java/com/examples/konovalov/ReflectionMethod.java
+/src/main/java/com/examples/konovalov/Gen.java
