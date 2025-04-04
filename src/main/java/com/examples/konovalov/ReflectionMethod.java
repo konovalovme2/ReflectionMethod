@@ -1,8 +1,10 @@
 package com.examples.konovalov;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import static java.util.Collections.copy;
 import static java.util.Collections.swap;
 
 
@@ -16,7 +18,7 @@ public class ReflectionMethod {
     public ReflectionMethod(double[][] matrix){
         A = matrix;
         n = A.length;
-        diag = new double[n-1];
+        diag = new double[n];
         C = new int[n];
         sqLenV = new ArrayList<>(n);
 
@@ -33,6 +35,8 @@ public class ReflectionMethod {
 
     public double[][] findReversedMatrix(){
         findUpperTriangleMatrix();
+        findReversedUpperTriangleMatrix();
+
         return A;
     }
 
@@ -58,10 +62,22 @@ public class ReflectionMethod {
             }
 
         }
+        diag[n-1] = A[n-1][n-1];
     }
 
     private void findReversedUpperTriangleMatrix(){
-
+        for(int i = n - 1; i > -1; i--){
+            diag[i] = 1 / diag[i];
+            double[] mas = Arrays.copyOf(A[i], n);
+            for(int j = i + 1; j < n; j++){
+                double sum = 0;
+                for(int k = i + 1; k < j; k++){
+                    sum += mas[k]*A[k][j];
+                }
+                sum += mas[j]*diag[j];
+                A[i][j] = -diag[i] * sum;
+            }
+        }
     }
 
     private double findMainColumnLength(int j){
