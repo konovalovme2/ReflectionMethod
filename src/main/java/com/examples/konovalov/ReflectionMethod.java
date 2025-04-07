@@ -2,9 +2,6 @@ package com.examples.konovalov;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
-
-import static java.util.Collections.copy;
 import static java.util.Collections.swap;
 
 
@@ -36,6 +33,28 @@ public class ReflectionMethod {
     public double[][] findReversedMatrix(){
         findUpperTriangleMatrix();
         findReversedUpperTriangleMatrix();
+        A[n-1][n-1] = diag[n-1];
+        for(int j = n - 2; j > -1; j--){
+            double[] wj = new double[n-j];
+            for(int i = j; i < n; i++){
+                wj[i-j] = A[i][j];
+                A[i][j] = 0;
+            }
+            A[j][j] = diag[j];
+            double sum = 0;
+            for(int i = j; i < n; i++){
+                sum += A[j][i]*wj[i-j];
+            }
+            for(int i = j; i < n; i++){
+                A[j][i] = A[j][i] - 2 * sum * wj[i-j];
+            }
+        }
+
+        for(int j = n - 2; j > -1; j--){
+            double[] temp = A[j];
+            A[j] = A[C[j]];
+            A[C[j]] = temp;
+        }
 
         return A;
     }
@@ -91,6 +110,7 @@ public class ReflectionMethod {
         }
         swap(sqLenV, 0, iMax);
         swapColumns(j, iMax + j);
+        C[j] = iMax + j;
         for(int i = 0; i < sqLenV.size(); i++){
             sqLenV.set(j, sqLenV.get(i) - A[j][i]*A[j][i]);
         }
