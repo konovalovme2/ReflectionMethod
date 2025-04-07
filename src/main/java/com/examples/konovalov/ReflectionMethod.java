@@ -2,7 +2,7 @@ package com.examples.konovalov;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import static java.util.Collections.swap;
+import java.util.Collections;
 
 
 public class ReflectionMethod {
@@ -16,7 +16,7 @@ public class ReflectionMethod {
         A = matrix;
         n = A.length;
         diag = new double[n];
-        C = new int[n];
+        C = new int[n-1];
         sqLenV = new ArrayList<>(n);
 
         for (int i = 0; i < n; i++) {
@@ -108,11 +108,11 @@ public class ReflectionMethod {
                 iMax = i;
             }
         }
-        swap(sqLenV, 0, iMax);
+        Collections.swap(sqLenV, 0, iMax);
         swapColumns(j, iMax + j);
         C[j] = iMax + j;
         for(int i = 0; i < sqLenV.size(); i++){
-            sqLenV.set(j, sqLenV.get(i) - A[j][i]*A[j][i]);
+            sqLenV.set(i, sqLenV.get(i) - A[j][i]*A[j][i]);
         }
         sqLenV.remove(0);
         return max;

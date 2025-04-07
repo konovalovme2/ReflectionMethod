@@ -12,7 +12,7 @@ public class App
 
         for (int i = 0; i < A.length; i++) {
             for (int j = 0; j < A.length; j++) {
-                System.out.println(A[i][j] + " ");
+                System.out.print(A[i][j] + " ");
             }
             System.out.println("\n");
         }
