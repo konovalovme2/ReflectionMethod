@@ -34,10 +34,10 @@ public class ReflectionMethod {
         findUpperTriangleMatrix();
         findReversedUpperTriangleMatrix();
         A[n-1][n-1] = diag[n-1];
-        for(int j = n - 2; j > -1; j--){
-            double[] wj = new double[n-j];
-            for(int i = j; i < n; i++){
-                wj[i-j] = A[i][j];
+        for(int j = n - 2; j > -1; j--) {
+            double[] wj = new double[n - j];
+            for (int i = j; i < n; i++) {
+                wj[i - j] = A[i][j];
                 A[i][j] = 0;
             }
             A[j][j] = diag[j];
@@ -47,8 +47,10 @@ public class ReflectionMethod {
                 lenX += A[j][i]*wj[i-j];
                 lenY += A[j][i]*A[j][i];
             }
-            for(int i = j; i < n; i++){
-                A[j][i] = A[j][i] - 2 * lenX/lenY * wj[i-j];
+            for (int k = 0; k < n; k++){
+                for (int i = j; i < n; i++) {
+                    A[j][i] = A[j][i] - 2 * lenX/lenY * wj[i-j];
+                }
             }
         }
 
