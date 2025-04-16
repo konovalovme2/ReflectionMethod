@@ -41,12 +41,14 @@ public class ReflectionMethod {
                 A[i][j] = 0;
             }
             A[j][j] = diag[j];
-            double sum = 0;
+            double lenX = 0;
+            double lenY = 0;
             for(int i = j; i < n; i++){
-                sum += A[j][i]*wj[i-j];
+                lenX += A[j][i]*wj[i-j];
+                lenY += A[j][i]*A[j][i];
             }
             for(int i = j; i < n; i++){
-                A[j][i] = A[j][i] - 2 * sum * wj[i-j];
+                A[j][i] = A[j][i] - 2 * lenX/lenY * wj[i-j];
             }
         }
 
