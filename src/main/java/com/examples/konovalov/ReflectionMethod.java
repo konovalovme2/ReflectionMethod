@@ -33,6 +33,7 @@ public class ReflectionMethod {
     public double[][] findReversedMatrix(){
         findUpperTriangleMatrix();
         findReversedUpperTriangleMatrix();
+
         A[n-1][n-1] = diag[n-1];
         for(int j = n - 2; j > -1; j--) {
             double[] wj = new double[n - j];
@@ -41,15 +42,17 @@ public class ReflectionMethod {
                 A[i][j] = 0;
             }
             A[j][j] = diag[j];
-            double lenX = 0;
             double lenY = 0;
             for(int i = j; i < n; i++){
-                lenX += A[j][i]*wj[i-j];
                 lenY += A[j][i]*A[j][i];
             }
-            for (int k = 0; k < n; k++){
+            for (int row = 0; row < n; row++) {
+                double lenX = 0;
                 for (int i = j; i < n; i++) {
-                    A[j][i] = A[j][i] - 2 * lenX/lenY * wj[i-j];
+                    lenX += A[row][i] * wj[i - j];
+                }
+                for (int i = j; i < n; i++) {
+                    A[row][i] -= 2 * lenX / lenY * wj[i - j];
                 }
             }
         }
@@ -69,7 +72,8 @@ public class ReflectionMethod {
 
         for(int i = 0; i < n-1; i++){
             lenW = findMainColumnLength(i);
-            el = A[i][i] - Math.sqrt(lenW);
+            double sign = A[i][i] < 0 ? -1 : 1;
+            el = A[i][i] - sign * Math.sqrt(lenW);
             lenW = lenW - A[i][i]*A[i][i] + el*el;
             diag[i] = A[i][i];
             A[i][i] = el;
@@ -79,7 +83,7 @@ public class ReflectionMethod {
                 for(int m = i + 1; m < n; m++){
                     lenX += A[m][i]*A[m][k];
                 }
-                for(int m = i + 1; m < n; m++){
+                for(int m = i; m < n; m++){
                     A[m][k] = A[m][k] - 2 * (lenX/lenW) * A[m][i];
                 }
             }
@@ -123,7 +127,8 @@ public class ReflectionMethod {
     }
 
     private void swapColumns(int first, int second) {
-        for(int i = 0; i < n; i++) {
+        if (first == second) return;
+        for (int i = 0; i < n; i++) {
             double temp = A[i][first];
             A[i][first] = A[i][second];
             A[i][second] = temp;
