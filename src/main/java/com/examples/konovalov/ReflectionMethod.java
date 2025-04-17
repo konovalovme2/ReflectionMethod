@@ -17,16 +17,14 @@ public class ReflectionMethod {
         n = A.length;
         diag = new double[n];
         C = new int[n-1];
-        sqLenV = new ArrayList<>(n);
+        sqLenV = new ArrayList<>();
 
-        for (int i = 0; i < n; i++) {
-            sqLenV.add(0.0);
-        }
-
-        for(int i = 0; i < n; i++){
-            for(int j = 0; j < n; j++){
-                sqLenV.set(j, sqLenV.get(j) + A[i][j]*A[i][j]);
+        for(int j = 0; j < n; j++){
+            double sum = 0.0;
+            for (int i = 0; i < n; i++) {
+                sum += A[i][j] * A[i][j];
             }
+            sqLenV.add(sum);
         }
     }
 
@@ -67,14 +65,11 @@ public class ReflectionMethod {
     }
 
     private void findUpperTriangleMatrix(){
-        double lenW = 0;
-        double el = 0;
-
         for(int i = 0; i < n-1; i++){
-            lenW = findMainColumnLength(i);
+            double lenW = findMainColumnLength(i);
             double sign = A[i][i] < 0 ? -1 : 1;
-            el = A[i][i] - sign * Math.sqrt(lenW);
-            lenW = lenW - A[i][i]*A[i][i] + el*el;
+            double el = A[i][i] - sign * Math.sqrt(lenW);
+            lenW += el*el;
             diag[i] = A[i][i];
             A[i][i] = el;
 
@@ -120,8 +115,10 @@ public class ReflectionMethod {
         swapColumns(j, iMax + j);
         C[j] = iMax + j;
         for(int i = 0; i < sqLenV.size(); i++){
-            sqLenV.set(i, sqLenV.get(i) - A[j][i]*A[j][i]);
+            double s = sqLenV.get(i) - A[j][i+j]*A[j][i+j];
+            sqLenV.set(i, s);
         }
+        max = sqLenV.get(0);
         sqLenV.remove(0);
         return max;
     }
