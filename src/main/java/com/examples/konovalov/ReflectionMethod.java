@@ -42,7 +42,7 @@ public class ReflectionMethod {
             A[j][j] = diag[j];
             double lenY = 0;
             for(int i = j; i < n; i++){
-                lenY += A[j][i]*A[j][i];
+                lenY += wj[i - j]*wj[i - j];
             }
             for (int row = 0; row < n; row++) {
                 double lenX = 0;
@@ -50,7 +50,7 @@ public class ReflectionMethod {
                     lenX += A[row][i] * wj[i - j];
                 }
                 for (int i = j; i < n; i++) {
-                    A[row][i] -= 2 * lenX / lenY * wj[i - j];
+                    A[row][i] -= 2 * (lenX/lenY) * wj[i - j];
                 }
             }
         }
@@ -69,7 +69,7 @@ public class ReflectionMethod {
             double lenW = findMainColumnLength(i);
             double sign = A[i][i] < 0 ? -1 : 1;
             double el = A[i][i] - sign * Math.sqrt(lenW);
-            lenW += el*el;
+            lenW += (el*el - A[i][i]*A[i][i]);
             diag[i] = A[i][i];
             A[i][i] = el;
 
@@ -114,11 +114,10 @@ public class ReflectionMethod {
         Collections.swap(sqLenV, 0, iMax);
         swapColumns(j, iMax + j);
         C[j] = iMax + j;
-        for(int i = 0; i < sqLenV.size(); i++){
+        for(int i = 1; i < sqLenV.size(); i++){
             double s = sqLenV.get(i) - A[j][i+j]*A[j][i+j];
             sqLenV.set(i, s);
         }
-        max = sqLenV.get(0);
         sqLenV.remove(0);
         return max;
     }
