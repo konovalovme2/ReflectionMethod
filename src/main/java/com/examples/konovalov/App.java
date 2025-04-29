@@ -15,7 +15,8 @@ public class App
 
         ReflectionMethod method = new ReflectionMethod(cloneMatrix(matrix));
         double[][] inv = method.findReversedMatrix();
-
+        printMatrix(inv);
+        System.out.println("______________________________");
         double[][] product = multiply(matrix, inv);
         printMatrix(product);
     }

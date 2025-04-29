@@ -114,9 +114,12 @@ public class ReflectionMethod {
         Collections.swap(sqLenV, 0, iMax);
         swapColumns(j, iMax + j);
         C[j] = iMax + j;
-        for(int i = 1; i < sqLenV.size(); i++){
-            double s = sqLenV.get(i) - A[j][i+j]*A[j][i+j];
-            sqLenV.set(i, s);
+        for(int i = j + 1; i < n; i++){
+            double sum = 0.0;
+            for (int k = j + 1; k < n; k++) {
+                sum += A[i][k] * A[i][k];
+            }
+            sqLenV.set(i - j, sum);
         }
         sqLenV.remove(0);
         return max;
