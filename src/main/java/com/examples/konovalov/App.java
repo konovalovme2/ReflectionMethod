@@ -19,6 +19,9 @@ public class App
         System.out.println("______________________________");
         double[][] product = multiply(matrix, inv);
         printMatrix(product);
+        System.out.println("______________________________");
+        Table table = new Table();
+        table.GenTest();
     }
 
     public static double[][] cloneMatrix(double[][] matrix) {
